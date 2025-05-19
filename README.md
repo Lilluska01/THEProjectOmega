@@ -37,6 +37,10 @@ A simple, responsive hotel room management web app built with F# and Giraffe.
 - Git  
 - (Optional) Azure CLI + App Service subscription
 
+## SOON
+- **Revenue Statistics**  
+  Aggregate paid bookings by room for the current month; display totals and chart.
+  
 ## Installation & Running Locally
 
 ```bash
@@ -50,6 +54,4 @@ dotnet build
 # run the app
 dotnet run
 
-## SOON
-- **Revenue Statistics**  
-  Aggregate paid bookings by room for the current month; display totals and chart.
+

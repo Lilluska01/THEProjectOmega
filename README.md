@@ -1,7 +1,7 @@
 # HotelManagerApp
 
 A simple, responsive hotel room management web app built with F# and Giraffe.
-
+Live Link: https://hotelmanager-ffd8h9hvb9gkcygu.germanywestcentral-01.azurewebsites.net/index.html
 ## Key Features
 
 - **Book Room**  
@@ -40,6 +40,10 @@ A simple, responsive hotel room management web app built with F# and Giraffe.
 ## SOON
 - **Revenue Statistics**  
   Aggregate paid bookings by room for the current month; display totals and chart.
+
+##Pictures
+Main Site
+assets/screenshot1.png
   
 ## Installation & Running Locally
 

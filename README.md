@@ -44,6 +44,14 @@ Live Link: https://hotelmanager-ffd8h9hvb9gkcygu.germanywestcentral-01.azurewebs
 ## Photos
 **Main Site**
 ![Screenshot 1](assets/screenshot1.png)
+**Boooking Site**
+![Screenshot 1](assets/screenshot2.png)
+**List of Bookings**
+![Screenshot 1](assets/screenshot3.png)
+**Free & Booked Rooms**
+![Screenshot 1](assets/screenshot4.png)
+
+
   
 ## Installation & Running Locally
 

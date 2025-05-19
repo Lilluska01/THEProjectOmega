@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="hu">
+<head>
+<link rel="stylesheet" href="/lang.css" />
+  <meta charset="utf-8" />
+  <title>Bevétel statisztika</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    label, input, button { display: inline-block; margin: .5rem; vertical-align: middle; }
+    #chart-container { width: 90%; max-width: 800px; margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <h1>Bevétel statisztika</h1>
+
+  <label for="from">Kezdő dátum:</label>
+  <input id="from" type="date" />
+
+  <label for="to">Záró dátum:</label>
+  <input id="to" type="date" />
+
+  <button id="filter">Szűrés</button>
+
+  <div id="chart-container">
+    <canvas id="revChart"></canvas>
+  </div>
+
+  <script>
+    (function() {
+      const now   = new Date();
+      const first = new Date(now.getFullYear(), now.getMonth(), 1);
+      const last  = new Date(now.getFullYear(), now.getMonth()+1, 0);
+      const pad   = n => String(n).padStart(2,'0');
+      const toISO = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+      document.getElementById('from').value = toISO(first);
+      document.getElementById('to').value   = toISO(last);
+    })();
+
+    let chart = null;
+
+    async function drawRevenue() {
+      const all = await fetch('/bookings').then(r => r.json());
+      const from = new Date(document.getElementById('from').value);
+      const to   = new Date(document.getElementById('to').value);
+      const filtered = all.filter(b => {
+        const ci = new Date(b.checkIn  ?? b.CheckIn);
+        const co = new Date(b.checkOut ?? b.CheckOut);
+        return ci < to && co > from;
+      });
+      const revByRoom = {};
+      filtered.forEach(b => {
+        const room   = b.roomNumber   ?? b.RoomNumber;
+        const people = b.peopleCount  ?? b.PeopleCount;
+        const rate   = b.nightlyRate  ?? b.NightlyRate;
+        const ci     = new Date(b.checkIn  ?? b.CheckIn);
+        const co     = new Date(b.checkOut ?? b.CheckOut);
+        const nights = Math.ceil((co - ci)/(1000*60*60*24));
+        const total  = nights * rate * people;
+        revByRoom[room] = (revByRoom[room] || 0) + total;
+      });
+
+      const rooms = Object.keys(revByRoom)
+                          .map(r=>parseInt(r,10))
+                          .sort((a,b)=>a-b);
+      const labels = rooms.map(r=>'Szoba '+r);
+      const data   = rooms.map(r=>revByRoom[r] || 0);
+      const ctx = document.getElementById('revChart').getContext('2d');
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Bevétel (Ft)',
+            data: data,
+            backgroundColor: 'rgba(75,192,192,0.5)'
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { callback: v => v.toLocaleString() + ' Ft' }
+            }
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: ctx => ctx.parsed.y.toLocaleString() + ' Ft'
+              }
+            }
+          }
+        }
+      });
+    }
+
+    document.getElementById('filter').onclick = drawRevenue;
+    window.onload = drawRevenue;
+  </script>
+  <script src="/lang.js"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="hu">
+<head>
+<link rel="stylesheet" href="/lang.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HotelManagerApp</title>
+  <link rel="icon" href="/HotelManager.ico" type="image/x-icon" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+    .bg-image {
+      position: absolute;
+      top: 0; right: 0;
+      width: 50%;
+      height: 100%;
+      background: url('room.jpg') no-repeat center center;
+      background-size: cover;
+      filter: blur(8px);
+    }
+    .overlay {
+      position: absolute;
+      top: 0; right: 0;
+      width: 50%;
+      height: 100%;
+      background: rgba(0,0,0,0.3);
+    }
+    .content {
+      position: absolute;
+      top: 0; left: 0;
+      width: 50%;
+      height: 100%;
+      background: #343a40;
+      color: #f8f9fa;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+    .content h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .nav-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      width: 100%;
+      max-width: 280px;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <img src="/HotelManager.png" alt="HotelManager Logo" style="max-width:300px; width:150%; height:auto;" />
+    <p>
+    <div class="nav-group">
+      <a href="booking.html"   class="btn btn-light btn-lg w-100" data-i18n="bookRoom">Szoba foglalása</a>
+      <a href="bookings.html"  class="btn btn-light btn-lg w-100" data-i18n="listBookings">Foglalások listázása</a>
+      <a href="rooms.html"     class="btn btn-light btn-lg w-100" data-i18n="roomsAndBookings">Szobák és foglalások</a>
+      <a href="cancel.html"    class="btn btn-light btn-lg w-100" data-i18n="cancelBooking">Foglalás törlése</a>
+      <a href="payment.html"   class="btn btn-light btn-lg w-100" data-i18n="payment">Fizetés</a>
+      <a href="error.html"   class="btn btn-light btn-lg w-100" data-i18n="revenueStats">Bevétel statisztika</a>
+    </div>
+  </div>
+
+  <div class="bg-image"></div>
+  <div class="overlay"></div>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+  </script>
+  <script src="/lang.js"></script>
+
+</body>
+</html>

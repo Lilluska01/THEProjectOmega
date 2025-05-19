@@ -1,0 +1,274 @@
+﻿<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-i18n="paymentTitle">Fizetés</title>
+  <link rel="icon" href="/HotelManager.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="/lang.css" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+  <style>
+    body {
+      background-color: #1f2124;
+      color: #e1e3e6;
+      font-family: sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      position: relative;
+    }
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background-color: #2c2f33;
+      border: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+    .card-header {
+      background-color: #232529;
+      border-bottom: 1px solid #444;
+      text-align: center;
+    }
+    .card-header h2 {
+      color: #fff;
+      margin: 0;
+      padding: 1rem;
+      font-size: 1.5rem;
+    }
+    .card-body {
+      padding: 1.5rem;
+    }
+    .form-label {
+      color: #e1e3e6;
+    }
+    .form-select,
+    .form-control {
+      background-color: #343a40;
+      color: #e1e3e6;
+      border: 1px solid #555;
+    }
+    .form-control::placeholder {
+      color: #bbb !important;
+      opacity: 1;
+    }
+    .form-control:disabled,
+    .form-select:disabled {
+      background-color: #343a40;
+      color: #777;
+      opacity: 1;
+    }
+    .form-select:focus,
+    .form-control:focus {
+      background-color: #343a40;
+      color: #fff;
+      border-color: #6c63ff;
+      box-shadow: 0 0 0 0.2rem rgba(108,99,255,0.3);
+    }
+    .btn {
+      min-width: 100px;
+    }
+    .btn-primary {
+      background-color: #6c63ff;
+      border-color: #6c63ff;
+    }
+    .btn-primary:hover {
+      background-color: #584de5;
+      border-color: #584de5;
+    }
+    .btn-outline-primary {
+      color: #6c63ff;
+      border-color: #6c63ff;
+    }
+    .btn-outline-primary:hover {
+      background-color: rgba(108,99,255,0.1);
+    }
+    .btn-outline-secondary {
+      color: #aaa;
+      border-color: #777;
+    }
+    .btn-outline-secondary:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+    .alert {
+      background-color: #3a3d42;
+      color: #e1e3e6;
+      border-color: #555;
+    }
+    .me-2 { margin-right: .5rem !important; }
+    .back-nav {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      z-index: 100;
+    }
+    .back-nav a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      color: #f8f9fa;
+      background-color: rgba(0,0,0,0.3);
+      border-radius: 0.3rem;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+    .back-nav a:hover {
+      background-color: rgba(0,0,0,0.5);
+    }
+    .back-nav img {
+      height: 1.2em;
+      width: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="back-nav">
+    <a href="index.html">
+      &lt; <span data-i18n="backBTN">Vissza</span>
+      <img src="/HotelManager.png" alt="Hotel logo" />
+    </a>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <h2 data-i18n="paymentTitle">Fizetés</h2>
+    </div>
+    <div class="card-body">
+      <form id="paymentForm" novalidate>
+        <div class="mb-4">
+          <label for="bookingSelect" class="form-label" data-i18n="lblSelectBooking">Foglalás kiválasztása</label>
+          <select id="bookingSelect" class="form-select" data-i18n-ph="optChoose" data-i18n="optChoose">
+            <option value="">-- válassz --</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" data-i18n="lblRoomNumber">Szoba száma</label>
+          <input type="text" id="roomNum" class="form-control" readonly />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" data-i18n="lblPeopleCount">Vendégek száma</label>
+          <input type="number" id="peopleCount" class="form-control" disabled />
+        </div>
+        <div class="mb-3">
+          <label for="nights" class="form-label" data-i18n="lblNights">Éjszakák száma</label>
+          <input type="number" id="nights" class="form-control" disabled />
+        </div>
+        <div class="mb-4">
+          <label for="rate" class="form-label" data-i18n="lblRate">Ár/éj (Ft)</label>
+          <input type="number" id="rate" class="form-control" disabled />
+        </div>
+        <div class="d-flex mb-3">
+          <button type="button" id="editBtn" class="btn btn-outline-secondary me-2" disabled data-i18n="btnEdit">Módosítás</button>
+          <button type="button" id="calcBtn" class="btn btn-outline-primary me-2" disabled data-i18n="btnCalc">Számítás</button>
+          <button type="button" id="paidBtn" class="btn btn-primary" disabled data-i18n="btnMarkPaid">Kifizetettnek jelöl</button>
+        </div>
+        <div id="message"></div>
+      </form>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/lang.js"></script>
+  <script>
+    let currentBooking = null;
+    async function loadBookings() {
+      const sel = document.getElementById('bookingSelect');
+      const list = await fetch('/bookings').then(r => r.json());
+      sel.innerHTML = '<option value="">-- válassz/choose --</option>';
+      list.forEach(b => {
+        const id    = b.id        ?? b.Id;
+        const guest = b.guestName ?? b.GuestName;
+        const room  = b.roomNumber?? b.RoomNumber;
+        const ci    = new Date(b.checkIn  ?? b.CheckIn);
+        const co    = new Date(b.checkOut ?? b.CheckOut);
+        const paid  = b.paid      ?? b.Paid;
+        const opt   = document.createElement('option');
+        opt.value   = id;
+        opt.text    = `${guest} - Szoba ${room} (${ci.toLocaleDateString()}->${co.toLocaleDateString()})`
+                      + (paid ? ' [Kifizetve]' : '');
+        sel.appendChild(opt);
+      });
+      sel.onchange = () => {
+        const id = sel.value;
+        const b  = list.find(x => (x.id ?? x.Id) === id);
+        if (!b) return resetForm();
+        currentBooking = {
+          id:       id,
+          room:     b.roomNumber  ?? b.RoomNumber,
+          people:   b.peopleCount ?? b.PeopleCount,
+          checkIn:  new Date(b.checkIn  ?? b.CheckIn),
+          checkOut: new Date(b.checkOut ?? b.CheckOut),
+          paid:     b.paid         ?? b.Paid
+        };
+        document.getElementById('roomNum').value     = currentBooking.room;
+        document.getElementById('peopleCount').value = currentBooking.people;
+        const nights = Math.ceil((currentBooking.checkOut - currentBooking.checkIn)/(1000*60*60*24));
+        document.getElementById('nights').value      = nights;
+        document.getElementById('rate').value        = 23500;
+        ['editBtn','calcBtn','paidBtn'].forEach(id=>
+          document.getElementById(id).disabled = currentBooking.paid
+        );
+        ['peopleCount','nights','rate'].forEach(id=>
+          document.getElementById(id).disabled = true
+        );
+        document.getElementById('message').innerHTML = '';
+      };
+    }
+    function resetForm() {
+      currentBooking = null;
+      ['roomNum','peopleCount','nights','rate'].forEach(id =>
+        document.getElementById(id).value = ''
+      );
+      ['editBtn','calcBtn','paidBtn'].forEach(id =>
+        document.getElementById(id).disabled = true
+      );
+      document.getElementById('message').innerHTML = '';
+    }
+    document.getElementById('editBtn').onclick = () => {
+      ['peopleCount','nights','rate'].forEach(id =>
+        document.getElementById(id).disabled = false
+      );
+      document.getElementById('calcBtn').disabled = false;
+      document.getElementById('editBtn').disabled = true;
+    };
+    document.getElementById('calcBtn').onclick = () => {
+      if (!currentBooking) return;
+      const ppl    = parseInt(document.getElementById('peopleCount').value) || 0;
+      const nights = parseInt(document.getElementById('nights').value)       || 0;
+      const rate   = parseFloat(document.getElementById('rate').value)       || 0;
+      const total  = ppl * nights * rate;
+      document.getElementById('message').innerHTML =
+        `<div class="alert alert-success">
+           <strong data-i18n="lblRoomNumber">Szoba:</strong> ${currentBooking.room}<br/>
+           <strong data-i18n="lblPeopleCount">Vendégek:</strong> ${ppl}<br/>
+           <strong data-i18n="lblNights">Éjszakák:</strong> ${nights}<br/>
+           <strong data-i18n="lblRate">Ár/éj:</strong> ${rate.toLocaleString()} Ft<br/>
+           <strong data-i18n="revenueTotal">Összesen:</strong> ${total.toLocaleString()} Ft
+         </div>`;
+      document.getElementById('paidBtn').disabled = false;
+    };
+    document.getElementById('paidBtn').onclick = async () => {
+      if (!currentBooking) return;
+      const res = await fetch('/paid', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(currentBooking.id)
+      });
+      const obj = await res.json();
+      if (res.ok && obj.Success) {
+        document.getElementById('message').innerHTML =
+          `<div class="alert alert-success" data-i18n="msgPaySuccess">Kifizetés sikeres!</div>`;
+        ['editBtn','calcBtn','paidBtn'].forEach(id=>
+          document.getElementById(id).disabled = true
+        );
+      } else {
+        document.getElementById('message').innerHTML =
+          `<div class="alert alert-danger" data-i18n="msgPayFail">Kifizetés sikeres!</div>`;
+      }
+    };
+    window.onload = loadBookings;
+  </script>
+</body>
+</html>

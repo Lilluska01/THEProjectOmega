@@ -8,7 +8,7 @@ A simple, responsive hotel room management web app built with F# and Giraffe.
   Enter guest name, check-in/check-out dates and number of guests; automatic room assignment and reservation.
 
 - **List Bookings**  
-  Filter by date range; view booking ID, guest name, room number, guest count, check-in, check-out, and nightly rate.
+  Filter by date range; view booking ID, guest name, room number, guest count, check-in, check-out, and nightly fees.
 
 - **Rooms & Bookings**  
   Visual calendar: colored “pill” indicators for each day showing free (green) or booked (red) status.

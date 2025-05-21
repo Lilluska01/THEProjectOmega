@@ -26,10 +26,9 @@ Live Link: https://hotelmanager-ffd8h9hvb9gkcygu.germanywestcentral-01.azurewebs
 ## Architecture & Technologies
 
 - **F# + Giraffe** on ASP.NET Core  
-- **MailboxProcessor** for in-memory state  
 - **Bootstrap 5** with dark theme  
 - **StaticFiles** under `wwwroot` for HTML, CSS, JS  
-- **GitHub Actions → Azure App Service** CI/CD
+- **GitHub Actions → Azure App Service**
 
 ## Prerequisites
 
